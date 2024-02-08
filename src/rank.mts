@@ -9,6 +9,7 @@ export interface WebsiteRank {
 
   /** The ranking of the website on the specified page. */
   rank: number;
+  overallRank: number;
 }
 
 /**
@@ -27,6 +28,7 @@ export async function getWebsiteRank(
 
   const res = await searchWithPages({ query: keyword, pages: maxPage });
 
+  let overallRank = 0;
   for (let page = 0; page < res.length; ++page) {
     const websites: string[] = [];
     let prevWebsite = "";
@@ -39,8 +41,9 @@ export async function getWebsiteRank(
     }
 
     for (let rank = 0; rank < websites.length; ++rank) {
+      overallRank++;
       if (websites[rank].includes(website)) {
-        return { page, rank };
+        return { page, rank, overallRank };
       }
     }
   }

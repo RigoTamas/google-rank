@@ -11,6 +11,7 @@ export interface Arguments {
 
   /** Keywords to search for. */
   keywords: string[];
+  keywordsFile: string;
 
   /** Maximum page to search for. */
   maxPage: number;
@@ -32,6 +33,7 @@ export class ArgumentsParser {
     this.#program
       .argument("<website>", "website name")
       .option("--keywords <string...>", "keywords to search for")
+      .option("--keywords-file <string...>", "keywords to search for")
       .option("--file <string>", "file to read keywords from")
       .option("--max-page <number>", "maximum page to search for", "3");
   }
@@ -48,6 +50,7 @@ export class ArgumentsParser {
     const args: Arguments = {
       website: this.#program.args[0],
       keywords: opts.keywords ?? [],
+      keywordsFile: opts.keywordsFile ? opts.keywordsFile[0] : undefined,
       maxPage: parseInt(opts.maxPage, 10),
     };
 
